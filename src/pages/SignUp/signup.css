@@ -64,6 +64,11 @@
     background-color: #2f375b;
 }
 
+.login span {
+    font-size: 18px;
+    color: #2f375b;
+}
+
 .login a {
    margin: 10px 0;
    color: #000;
