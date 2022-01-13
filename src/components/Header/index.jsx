@@ -10,7 +10,6 @@ import { FiHome, FiUser, FiSettings } from "react-icons/fi";
 export default function Header() {
     
     const { user } = useContext(AuthContext);
-    console.log(user)
     
     return(
         <div className="sidebar">
@@ -27,7 +26,7 @@ export default function Header() {
             </Link>
             <Link to="/profile">
                 <FiSettings color="#FFF" size={24}/>
-                Configurações
+                Meu perfil
             </Link>
         </div>
     )
