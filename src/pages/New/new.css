@@ -1,0 +1,23 @@
+.form-profile {
+    max-width: 600px;
+}
+
+form textarea {
+    height: 95px;
+    resize: none;
+}
+
+.status {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 20px;
+    margin-left: -10px;
+}
+
+.status input {
+    width: 30px;
+}
+
+.status span {
+    margin-right: 30px;
+}
