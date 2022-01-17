@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { FiPlus } from "react-icons/fi";
 import firebase from '../../services/firebaseConnection';
+import { toast } from "react-toastify";
 
 import { AuthContext } from "../../contexts/auth";
 import Header from "../../components/Header";
@@ -51,9 +52,28 @@ export default function New() {
         loadCustomers();
     }, [])
 
-    function handleRegister(e) {
+    async function handleRegister(e) {
         e.preventDefault();
-        alert('teste');
+    
+        await firebase.firestore().collection('chamados')
+        .add({
+            created: new Date(),
+            cliente: customers[selectedCustomer].nomeFantasia,
+            clienteId: customers[selectedCustomer].id,
+            assunto: assunto,
+            status: status,
+            complemento: complemento,
+            userId: user.uid
+        })
+        .then(() => {
+            toast.success('Chamado cadastrado com sucesso!');
+            setComplemento('');
+            setSelectedCustomers(0);
+        })
+        .catch((error) => {
+            toast.error('Erro no cadastro de chamado!');
+            console.log(error);
+        })
     }
 
     //Troca assunto

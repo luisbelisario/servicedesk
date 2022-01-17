@@ -1,5 +1,4 @@
-import { useContext, useState } from "react";
-import { AuthContext } from "../../contexts/auth";
+import { useState } from "react";
 import { FiMessageSquare, FiPlus, FiSearch, FiEdit2 } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
@@ -12,7 +11,7 @@ import Title from "../../components/Title";
 
 function Dashboard() {
 
-    const [chamados, setChamados] = useState([1]);
+    const [chamados] = useState([1]);
 
     return (
         <div>
