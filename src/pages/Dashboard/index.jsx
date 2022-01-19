@@ -9,6 +9,7 @@ import './dashboard.css';
 
 import Header from "../../components/Header";
 import Title from "../../components/Title";
+import Modal from "../../components/Modal";
 
 const listRef = firebase.firestore().collection('chamados').orderBy('created', 'desc')
 
@@ -20,23 +21,28 @@ function Dashboard() {
     const [isEmpty, setIsEmpty] = useState(false);
     const [lastDocs, setLastDocs] = useState();
 
+    const [showPostModal, setShowPostModal] = useState(false);
+    const [detail, setDetail] = useState();
+
     useEffect(() => {
+        async function loadChamados() {
+            await listRef.limit(5)
+                .get()
+                .then((snapshot) => {
+                    updateState(snapshot);
+                })
+                .catch((error) => {
+                    console.log('Erro na busca de chamados', error);
+                    setLoadingMore(false);
+                })
+            setLoading(false);
+        }
+
         loadChamados();
 
     }, []);
 
-    async function loadChamados() {
-        await listRef.limit(5)
-            .get()
-            .then((snapshot) => {
-                updateState(snapshot);
-            })
-            .catch((error) => {
-                console.log('Erro na busca de chamados', error);
-                setLoadingMore(false);
-            })
-        setLoading(false);
-    }
+
 
     async function updateState(snapshot) {
         const isCollectionEmpty = snapshot.size === 0;
@@ -76,6 +82,11 @@ function Dashboard() {
         .then((snapshot) => {
             updateState(snapshot);
         })
+    }
+
+    function togglePostModal(chamado) {
+        setShowPostModal(!showPostModal);
+        setDetail(chamado);
     }
 
     if(loading) {
@@ -137,7 +148,7 @@ function Dashboard() {
                                             </td>
                                             <td data-label="Cadastrado em">{chamado.createdFormated}</td>
                                             <td data-label="#">
-                                                <button className="action" style={{ backgroundColor: '#3583f6' }}>
+                                                <button className="action" style={{ backgroundColor: '#3583f6' }} onClick={() => togglePostModal(chamado)}>
                                                     <FiSearch color="#FFF" size={17} />
                                                 </button>
                                                 <button className="action" style={{ backgroundColor: '#F6a935' }}>
@@ -155,6 +166,13 @@ function Dashboard() {
                 )}
 
             </div>
+
+            {showPostModal && (
+                <Modal 
+                    conteudo={detail}
+                    close={togglePostModal}
+                />
+            )}
         </div>
     )
 }
