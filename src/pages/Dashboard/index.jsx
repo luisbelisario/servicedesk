@@ -148,12 +148,12 @@ function Dashboard() {
                                             </td>
                                             <td data-label="Cadastrado em">{chamado.createdFormated}</td>
                                             <td data-label="#">
-                                                <button className="action" style={{ backgroundColor: '#3583f6' }} onClick={() => togglePostModal(chamado)}>
+                                                <button className="action" style={{ backgroundColor: '#3583f6' }} onClick={() => togglePostModal(chamado)} title="Ver detalhes">
                                                     <FiSearch color="#FFF" size={17} />
                                                 </button>
-                                                <button className="action" style={{ backgroundColor: '#F6a935' }}>
+                                                <Link className="action" style={{ backgroundColor: '#F6a935' }} to={`/new/${chamado.id}`} title="Editar">
                                                     <FiEdit2 color="#FFF" size={17} />
-                                                </button>
+                                                </Link>
                                             </td>
                                         </tr>
                                     )
