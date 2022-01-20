@@ -50,7 +50,21 @@ export default function New() {
                     setLoadCustomers(false);
 
                     if(id) {
-                        loadId(lista);
+                        firebase.firestore().collection('chamados').doc(id)
+                            .get()
+                            .then((snapshot) => {
+                                setAssunto(snapshot.data().assunto);
+                                setStatus(snapshot.data().status);
+                                setComplemento(snapshot.data().complemento);
+
+                                let index = lista.findIndex(item => item.id === snapshot.data().clienteId);
+                                setSelectedCustomers(index);
+                                setIdCustomer(true);
+                            })
+                            .catch((error) => {
+                                console.log('Chamado não encontrado!');
+                                setIdCustomer(false);
+                            })
                     }
                 })
                 .catch((error) => {
@@ -61,24 +75,6 @@ export default function New() {
         }
         loadCustomers();
     }, [id])
-
-    async function loadId(lista) {
-        await firebase.firestore().collection('chamados').doc(id)
-        .get()
-        .then((snapshot) => {
-            setAssunto(snapshot.data().assunto);
-            setStatus(snapshot.data().status);
-            setComplemento(snapshot.data().complemento);
-
-            let index = lista.findIndex(item => item.id === snapshot.data().clienteId);
-            setSelectedCustomers(index);
-            setIdCustomer(true);
-        })
-        .catch((error) => {
-            console.log('Chamado não encontrado!');
-            setIdCustomer(false);
-        })
-    }
 
     async function handleRegister(e) {
         e.preventDefault();
